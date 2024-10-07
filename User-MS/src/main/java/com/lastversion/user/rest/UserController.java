@@ -23,9 +23,5 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/confirmation/activate/{userID}")
-    public ResponseEntity<ConfirmationResponseDto> activate(@PathVariable("userID") UUID userID) {
-        ConfirmationResponseDto confirmationResponseDto = userService.confirmation(userID);
-        return ResponseEntity.ok(confirmationResponseDto);
-    }
+
 }

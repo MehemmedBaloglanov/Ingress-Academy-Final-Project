@@ -89,31 +89,6 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-
-    @Override
-    public ConfirmationResponseDto confirmation(UUID userID) {
-        Optional<UserEntity> userOptional = userRepository.findByUserId(userID);
-        if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
-        UserEntity userEntity = userOptional.get();
-
-        if (!isPinValid(userEntity.getPinExpirationTime())) {
-            userEntity.setStatus(UserStatus.EXPIRED);
-            userRepository.save(userEntity);
-            throw new InvalidException("User's pin is expired");
-        }
-
-
-        userEntity.setStatus(UserStatus.ACTIVATED);
-        userEntity.setPin(userEntity.getPin());
-        UserEntity savedUser = userRepository.save(userEntity);
-
-        return ConfirmationResponseDto.builder()
-                .confirmationPin(savedUser.getPin())
-                .build();
-    }
-
     private String generateRandomPin() {
         SecureRandom random = new SecureRandom();
         int pin = random.nextInt(900000) + 100000;

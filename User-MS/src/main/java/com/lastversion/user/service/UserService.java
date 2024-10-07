@@ -10,6 +10,4 @@ import java.util.UUID;
 
 public interface UserService {
     RegistrationResponseDto registration(@Valid RegistrationRequestDto registrationRequestDto);
-
-    ConfirmationResponseDto confirmation(UUID userID);
 }
