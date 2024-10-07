@@ -9,6 +9,7 @@
         </processorPath>
         <module name="FinalProjectLastVersion.Course-MS.main" />
         <module name="FinalProjectLastVersion.Notification-MS.main" />
+        <module name="FinalProjectLastVersion.Common.main" />
         <module name="FinalProjectLastVersion.User-MS.main" />
       </profile>
     </annotationProcessing>

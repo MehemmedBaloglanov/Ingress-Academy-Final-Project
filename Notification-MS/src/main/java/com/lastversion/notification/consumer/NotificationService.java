@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class NotificationService {
 
@@ -18,12 +19,12 @@ public class NotificationService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("taxiapp.notifications@gmail.com"); // Gönderici adresi
-            message.setTo(email);  // Alıcı adresi
-            message.setSubject(subject); // Konu
-            message.setText(body); // Gövde
+            message.setFrom("taxiapp.notifications@gmail.com"); // Sender address
+            message.setTo(email);  // Recipient address
+            message.setSubject(subject); // Subject
+            message.setText(body); // Body
 
-            // E-posta gönderimi
+            // Send email
             javaMailSender.send(message);
 
             log.info("Email successfully sent to {}", email);

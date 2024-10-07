@@ -1,15 +1,17 @@
 package com.lastversion.user.service;
 
 
+import com.lastversion.notification.consumer.KafkaConsumerService;
 import com.lastversion.user.dto.request.RegistrationRequestDto;
 import com.lastversion.user.dto.response.ConfirmationResponseDto;
 import com.lastversion.user.dto.response.RegistrationResponseDto;
-import com.lastversion.user.entity.UserEntity;
+import com.lastversion.common.entity.UserEntity;
 import com.lastversion.user.exception.InvalidException;
 import com.lastversion.user.exception.UserNotFoundException;
 import com.lastversion.user.repository.UserRepository;
-import com.lastversion.user.status.UserStatus;
+import com.lastversion.common.status.UserStatus;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final KafkaTemplate<String,UserEntity> kafkaTemplate;
-//    private final KafkaProducerService kafkaProducerService;
+    private final KafkaTemplate<String, UserEntity> kafkaTemplate;
+
+    private final KafkaConsumerService kafkaConsumerService;
 
 
     @Override
@@ -70,7 +73,10 @@ public class UserServiceImpl implements UserService {
 
         UserEntity savedUser = userRepository.save(user);
 
-        kafkaTemplate.send(TOPIC_USER_REG_EVENTS,user);
+        kafkaTemplate.send(TOPIC_USER_REG_EVENTS, savedUser);
+
+        kafkaConsumerService.consumeMessage(savedUser);
+
         return RegistrationResponseDto.builder()
                 .userId(savedUser.getUserId())
                 .firstName(savedUser.getFirstName())

@@ -1,6 +1,6 @@
 package com.lastversion.user.repository;
 
-import com.lastversion.user.entity.UserEntity;
+import com.lastversion.common.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 

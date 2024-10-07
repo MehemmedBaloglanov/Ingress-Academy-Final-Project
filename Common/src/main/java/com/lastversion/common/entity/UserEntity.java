@@ -1,6 +1,6 @@
-package com.lastversion.user.entity;
+package com.lastversion.common.entity;
 
-import com.lastversion.user.status.UserStatus;
+import com.lastversion.common.status.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

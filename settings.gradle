@@ -11,4 +11,6 @@ pluginManagement {
 
 rootProject.name = 'FinalProjectLastVersion'
 
-include 'Course-MS', 'Notification-MS', 'User-MS'
+include ':Course-MS', ':Notification-MS', ':User-MS'
+include 'Common'
+

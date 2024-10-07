@@ -1,6 +1,6 @@
 package com.lastversion.user.kafka;
 
-import com.lastversion.user.entity.UserEntity;
+import com.lastversion.common.entity.UserEntity;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

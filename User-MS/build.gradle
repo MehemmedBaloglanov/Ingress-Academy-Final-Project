@@ -1,2 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'com.lastversion'
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
+    implementation project(':Common')
+    implementation project(':Notification-MS')
+}
+
+test {
+    useJUnitPlatform()
 }
