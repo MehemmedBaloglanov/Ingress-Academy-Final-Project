@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
         UserEntity savedUser = userRepository.save(user);
         kafkaTemplate.send(TOPIC_USER_REG_EVENTS, savedUser);
+
         kafkaConsumerService.consumeMessage(savedUser);
 
         return RegistrationResponseDto.builder()
