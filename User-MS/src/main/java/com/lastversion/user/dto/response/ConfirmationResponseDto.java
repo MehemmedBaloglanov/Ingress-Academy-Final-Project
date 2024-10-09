@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class ConfirmationResponseDto {
-    private String confirmationPin;
+    private String message;
 }

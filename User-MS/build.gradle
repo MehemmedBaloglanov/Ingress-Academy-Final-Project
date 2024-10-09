@@ -11,6 +11,7 @@ repositories {
 dependencies {
     implementation project(':Common')
     implementation project(':Notification-MS')
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 test {

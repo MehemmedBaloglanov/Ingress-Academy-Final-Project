@@ -27,7 +27,6 @@ public class KafkaConsumerService {
 
         String subject = "Welcome to Our Service";
         String body = "Dear " + firstName + " " + lastName + ",\n\n" +
-                "Thank you for registering. We are excited to have you on board!\n" +
                 "Your registration PIN is: " + pin;
 
         notificationService.sendNotification(email, subject, body);
