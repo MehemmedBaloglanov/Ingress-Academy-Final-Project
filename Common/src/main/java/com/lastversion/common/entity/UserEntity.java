@@ -41,6 +41,6 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles; // İstifadəçinin rolları
+    private Set<Role> roles;
 }
 

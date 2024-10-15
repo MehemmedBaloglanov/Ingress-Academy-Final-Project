@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Component
@@ -19,12 +18,11 @@ public class NotificationService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("taxiapp.notifications@gmail.com"); // Sender address
-            message.setTo(email);  // Recipient address
-            message.setSubject(subject); // Subject
-            message.setText(body); // Body
+            message.setFrom("taxiapp.notifications@gmail.com");
+            message.setTo(email);
+            message.setSubject(subject);
+            message.setText(body);
 
-            // Send email
             javaMailSender.send(message);
 
             log.info("Email successfully sent to {}", email);

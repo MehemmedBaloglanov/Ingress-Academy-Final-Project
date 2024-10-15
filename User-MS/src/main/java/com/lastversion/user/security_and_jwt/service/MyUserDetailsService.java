@@ -1,6 +1,8 @@
 package com.lastversion.user.security_and_jwt.service;
 
+import com.lastversion.common.entity.AdminEntity;
 import com.lastversion.common.entity.UserEntity;
+import com.lastversion.user.repository.AdminRepository;
 import com.lastversion.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final AdminRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -23,5 +26,12 @@ public class MyUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
+
+    public UserDetails loadUserByUsernameAndPassword(String email, String password) throws UsernameNotFoundException {
+        AdminEntity admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Admin not found with email: " + email));
+        return new User(admin.getEmail(), admin.getPassword(), new ArrayList<>());
+    }
+
 }
 

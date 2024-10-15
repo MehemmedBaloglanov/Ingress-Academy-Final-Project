@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/1.0/users/registration").permitAll()
                         .requestMatchers("/api/1.0/users/confirmation").permitAll()
                         .requestMatchers("/api/1.0/users/authenticate").permitAll()
+                        .requestMatchers("/api/1.0/users/admin/authenticate").permitAll()
                         .anyRequest().permitAll()
                 );
         return http.build();

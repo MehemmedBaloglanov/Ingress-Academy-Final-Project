@@ -3,7 +3,9 @@ package com.lastversion.course.rest;
 import com.lastversion.common.entity.UserEntity;
 import com.lastversion.course.dto.CourseRequestDTO;
 import com.lastversion.course.dto.CourseResponseDTO;
+import com.lastversion.course.entity.CourseEntity;
 import com.lastversion.course.entity.StudentEntity;
+import com.lastversion.course.repository.CourseRepository;
 import com.lastversion.course.repository.StudentRepository;
 import com.lastversion.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class CourseController {
 
     private final CourseService courseService;
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
     @PostMapping
     public ResponseEntity<CourseResponseDTO> createCourse(@RequestBody CourseRequestDTO courseCreateRequestDTO) {
@@ -52,6 +55,19 @@ public class CourseController {
                 .name(userEntity.getFirstName())
                 .build();
         studentRepository.save(studentEntity);
+    }
+
+    @PutMapping("/{courseId}/add-student/{studentId}")
+    public ResponseEntity<String> addStudentToCourse(@PathVariable Long courseId, @PathVariable Long studentId) {
+        CourseEntity course = courseRepository.findById(courseId).get();
+
+        StudentEntity student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        student.setCourse(course);
+        studentRepository.save(student);
+
+        return new ResponseEntity<>("Student added to course successfully", HttpStatus.OK);
     }
 }
 

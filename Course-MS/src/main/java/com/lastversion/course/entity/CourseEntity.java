@@ -3,7 +3,7 @@ package com.lastversion.course.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,7 +29,6 @@ public class CourseEntity {
     @Column(nullable = false)
     private Integer duration;
 
-
-
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudentEntity> students;
 }
-

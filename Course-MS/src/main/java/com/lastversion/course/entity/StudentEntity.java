@@ -25,4 +25,3 @@ public class StudentEntity {
     @JoinColumn(name = "course_id")
     private CourseEntity course;
 }
-
