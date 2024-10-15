@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -37,5 +38,9 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles; // İstifadəçinin rolları
 }
 

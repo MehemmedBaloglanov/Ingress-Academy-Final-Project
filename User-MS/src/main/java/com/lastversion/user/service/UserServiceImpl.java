@@ -1,5 +1,6 @@
 package com.lastversion.user.service;
 
+import com.lastversion.common.entity.Role;
 import com.lastversion.common.entity.UserEntity;
 import com.lastversion.common.status.UserStatus;
 import com.lastversion.notification.consumer.KafkaConsumerService;
@@ -13,11 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.lastversion.user.kafka.KafkaTopicConfiguration.TOPIC_USER_REG_EVENTS;
@@ -30,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private final KafkaTemplate<String, UserEntity> kafkaTemplate;
     private final KafkaConsumerService kafkaConsumerService;
     private final PasswordEncoder passwordEncoder;
+    private final RestTemplate restTemplate; // RestTemplate
+
     @Override
     public RegistrationResponseDto registration(RegistrationRequestDto registrationRequestDto) {
         Optional<UserEntity> userOptional = userRepository.findByEmail(registrationRequestDto.getEmail());
@@ -55,6 +60,7 @@ public class UserServiceImpl implements UserService {
                     .firstName(registrationRequestDto.getFirstName())
                     .lastName(registrationRequestDto.getLastName())
                     .email(registrationRequestDto.getEmail())
+                    .roles(Set.of(Role.USER))
                     .password(passwordEncoder.encode(registrationRequestDto.getPassword()))
                     .pin(generateRandomPin())
                     .createAt(now)
@@ -67,6 +73,9 @@ public class UserServiceImpl implements UserService {
         kafkaTemplate.send(TOPIC_USER_REG_EVENTS, savedUser);
 
         kafkaConsumerService.consumeMessage(savedUser);
+
+        String courseMsUrl = "http://localhost:8080/courses/createstudent";
+        restTemplate.postForObject(courseMsUrl, savedUser, String.class);
 
         return RegistrationResponseDto.builder()
                 .userId(savedUser.getUserId())
@@ -107,4 +116,5 @@ public class UserServiceImpl implements UserService {
     private boolean isPinValid(LocalDateTime expireTime) {
         return LocalDateTime.now().isBefore(expireTime);
     }
+
 }

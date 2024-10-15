@@ -3,33 +3,26 @@ package com.lastversion.course.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "courses")
-public class CourseEntity {
+@Table(name = "students")
+public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String name;
 
     @Column(nullable = false)
-    private String description;
+    private String email;
 
-    @Column(nullable = false)
-    private String instructorName;
-
-    @Column(nullable = false)
-    private Integer duration;
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private CourseEntity course;
 }
 
