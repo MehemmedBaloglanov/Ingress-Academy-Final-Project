@@ -5,7 +5,7 @@ pluginManagement {
     }
 
     plugins {
-        id 'org.springframework.boot' version '3.1.3' // Burada düzgün Spring Boot versiyasını əlavə edirik
+        id 'org.springframework.boot' version '3.1.3'
     }
 }
 
